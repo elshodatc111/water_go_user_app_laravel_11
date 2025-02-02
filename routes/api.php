@@ -3,11 +3,10 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\RegisterController;
+use App\Http\Controllers\API\Admin\RegisterControllers;
+use App\Http\Controllers\API\Admin\CompanyControllers;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
-
+/// USERS ////
 Route::controller(RegisterController::class)->group(function(){
     Route::post('phone', 'phone');
     Route::post('check', 'check');
@@ -15,5 +14,16 @@ Route::controller(RegisterController::class)->group(function(){
 Route::middleware('auth:sanctum')->group( function () {
     Route::get('profile', [RegisterController::class, 'profile']);
 
+
+});
+
+/// ADMIN ////
+Route::controller(RegisterControllers::class)->group(function(){
+    Route::post('admin/login', 'login');
+});
+
+Route::middleware('auth:sanctum')->group( function () {
+    Route::post('admin/register', [RegisterControllers::class, 'register']);
+    Route::post('admin/company/create', [CompanyControllers::class, 'create']);
 
 });
