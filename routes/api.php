@@ -23,7 +23,17 @@ Route::controller(RegisterControllers::class)->group(function(){
 });
 
 Route::middleware('auth:sanctum')->group( function () {
-    Route::post('admin/register', [RegisterControllers::class, 'register']);
-    Route::post('admin/company/create', [CompanyControllers::class, 'create']);
+    /// Create New emploes
+    Route::post('admin/register', [RegisterControllers::class, 'register']);  // Uangi foydalanuvchi qo'shish
+    Route::get('admin/emploes/{company_id}', [RegisterControllers::class, 'emploes']);  // Kompaniya hodimlari
+    Route::get('admin/emploes/show/{user_id}', [RegisterControllers::class, 'emploes_user']);  // Kompaniya hodimi
+
+    /// Company 
+    Route::post('admin/company/create', [CompanyControllers::class, 'create']);  // Yangi kompaniya yaratish
+    Route::post('admin/company/update/data', [CompanyControllers::class, 'update_data']);  // Kompaniya malumotlarini tangilash
+    Route::post('admin/company/update/image', [CompanyControllers::class, 'update_image']);  // Kompaniya banner rasmini yangilash
+    Route::get('admin/company/company', [CompanyControllers::class, 'company']); // Barcha ro'yhatga olingan kompaniyalar
+    Route::get('admin/company/company/{id}', [CompanyControllers::class, 'show']); // Kompaniya haqida malumot
+
 
 });

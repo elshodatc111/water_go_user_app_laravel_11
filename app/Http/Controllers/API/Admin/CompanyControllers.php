@@ -50,8 +50,73 @@ class CompanyControllers extends BaseController{
             $success['company'] =  $Company;
             return $this->sendResponse($success, 'Create Company successfully.');
         }
-        return $this->sendError('Unauthorised.', ['error'=>'Rasm topilmadi']);
+        return $this->sendError('Unauthorised.', ['error'=>'Rasm topilmadi.']);
     }
-    
+    public function company(){
+        $Company = Company::select('name','phone','image','discription','work_time','price','status','balans','tarif','star_count','star','created_at')->get();
+        $success['company'] =  $Company;
+        return $this->sendResponse($success, 'Get all Company successfully.');
+    }
+    public function show($id){
+        $Company = Company::find($id);
+        if($Company){
+            $success['company'] =  $Company;
+            return $this->sendResponse($success, 'Company successfully.');
+        }else{
+            return $this->sendError('Unauthorised.', ['error'=>'Company topilmadi.']);
+        }
+    }
+    public function update_data(Request $request){
+        $validator = Validator::make($request->all(), [
+            'id' => 'required',
+            'name' => 'required',
+            'phone' => 'required',
+            'discription' => 'required',
+            'work_time' => 'required',
+            'price' => 'required',
+            'tarif' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return $this->sendError('Validation Error.', $validator->errors());
+        }
+        $Company = Company::find($request->id);
+        $Company->name = $request->name;
+        $Company->phone = $request->phone;
+        $Company->discription = $request->discription;
+        $Company->work_time = $request->work_time;
+        $Company->price = $request->price;
+        $Company->tarif = $request->tarif;
+        $Company->save();
+        $success['company'] =  $Company;
+        return $this->sendResponse($success, 'Company update successfully.');
+    }
+
+    public function update_image(Request $request){
+        $validator = Validator::make($request->all(), [
+            'id' => 'required',
+            'image' => 'required|mimes:jpg,png|max:2048',
+        ]);
+        if ($validator->fails()) {
+            return $this->sendError('Validation Error.', $validator->errors());
+        }
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            if (!file_exists(public_path('image/banner'))) {
+                mkdir(public_path('image/banner'), 0777, true);
+            }
+            $image->move(public_path('image/banner'), $imageName);
+            $imagePath = 'image/banner/' . $imageName;
+
+            $Company = Company::find($request->id);
+            $Company->image = $imagePath;
+            $Company->save();
+            $success['company'] =  $Company;
+            return $this->sendResponse($success, 'Company Update successfully.');
+        }
+        return $this->sendError('Unauthorised.', ['error'=>'Rasm topilmadi.']);
+    }
+
+
 }
 

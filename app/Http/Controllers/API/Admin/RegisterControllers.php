@@ -71,4 +71,29 @@ class RegisterControllers extends BaseController{
 
         
     }
+
+    public function emploes($company_id){
+        $Company = Company::find($company_id);
+        if($Company){
+            $success['company'] =  $Company;
+            $success['users'] =  User::where('company_id',$company_id)->where('type','!=','admin')->get(); 
+            return $this->sendResponse($success, 'Company All User successfully.');
+        }else{
+            return $this->sendError('Unauthorised.', ['error'=>'Kompaniya topilmadi']);
+        }
+    }
+
+    public function emploes_user($user_id){
+        $user = User::find($user_id);
+        if($user){
+            $success['user'] =  User::find($user_id); 
+            return $this->sendResponse($success, 'Company All User successfully.');
+        }else{
+            return $this->sendError('Unauthorised.', ['error'=>'Foydalanuvhi topilmadi']);
+        }
+    }
+
+
+
+
 }
