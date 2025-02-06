@@ -19,12 +19,17 @@ Route::middleware('auth:sanctum')->group( function () {
 
 /// ADMIN ////
 Route::controller(RegisterControllers::class)->group(function(){
-    Route::post('admin/login', 'login');
+    Route::post('admin/login', 'login');  // Admin uchun login
+    Route::post('admin/register', 'register');  // Uangi foydalanuvchi qo'shish
 });
 
 Route::middleware('auth:sanctum')->group( function () {
-    /// Create New emploes
-    Route::post('admin/register', [RegisterControllers::class, 'register']);  // Uangi foydalanuvchi qo'shish
+    Route::controller(RegisterControllers::class)->group(function(){
+        Route::post('admin/update-password', 'updatePassword');  // Parolni yangilash
+        Route::post('admin/logout', 'logout');  // Logout
+
+    });
+    
     Route::get('admin/emploes/{company_id}', [RegisterControllers::class, 'emploes']);  // Kompaniya hodimlari
     Route::get('admin/emploes/show/{user_id}', [RegisterControllers::class, 'emploes_user']);  // Kompaniya hodimi
 

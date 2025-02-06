@@ -4,19 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Company extends Model
-{
+class Company extends Model{
     protected $fillable = [
         'name',
         'phone',
-        'image',
-        'discription',
-        'work_time',
+        'time',
         'price',
-        'status',
+        'description',
         'balans',
-        'tarif',
-        'star_count',
-        'star',
+        'reyting',
+        'reyting_count',
+        'image_url',
+        'status_admin',
+        'status_drektor',
     ];
 }

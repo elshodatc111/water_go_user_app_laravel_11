@@ -10,15 +10,15 @@ return new class extends Migration{
             $table->id();
             $table->string("name");
             $table->string("phone");
-            $table->string("image");
-            $table->string("discription");
-            $table->string("work_time");
-            $table->integer("price");
-            $table->string("status");
+            $table->string("time");
+            $table->float("price")->default(0);
+            $table->longText("description");
             $table->integer("balans");
-            $table->integer("tarif");
-            $table->integer("star_count");
-            $table->string("star");
+            $table->float("reyting")->default(5.0);
+            $table->integer("reyting_count");
+            $table->string("image_url");
+            $table->boolean("status_admin")->default(true);
+            $table->boolean("status_drektor")->default(true);
             $table->timestamps();
         });
     }
