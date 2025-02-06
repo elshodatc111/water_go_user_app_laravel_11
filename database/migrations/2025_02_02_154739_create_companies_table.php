@@ -12,6 +12,7 @@ return new class extends Migration{
             $table->string("phone");
             $table->string("time");
             $table->float("price")->default(0);
+            $table->float("tarif")->default(0);
             $table->longText("description");
             $table->integer("balans");
             $table->float("reyting")->default(5.0);

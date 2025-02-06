@@ -84,7 +84,6 @@ class RegisterControllers extends BaseController{
         $user->save();
         return $this->sendResponse([], 'Parol muvaffaqiyatli yangilandi.');
     }
-    
 
     public function logout(Request $request): JsonResponse{
         $request->user()->currentAccessToken()->delete();

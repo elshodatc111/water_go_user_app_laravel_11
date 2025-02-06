@@ -10,6 +10,7 @@ class Company extends Model{
         'phone',
         'time',
         'price',
+        'tarif',
         'description',
         'balans',
         'reyting',
