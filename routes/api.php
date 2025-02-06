@@ -6,6 +6,7 @@ use App\Http\Controllers\API\RegisterController;
 use App\Http\Controllers\API\Admin\RegisterControllers;
 use App\Http\Controllers\API\Admin\CompanyControllers;
 use App\Http\Controllers\API\Admin\PaymartController;
+use App\Http\Controllers\API\Admin\EmploesController;
 
 /// USERS ////
 Route::controller(RegisterController::class)->group(function(){
@@ -47,6 +48,11 @@ Route::middleware('auth:sanctum')->group( function () {
         Route::get('admin/paymart/all', 'paymart'); // all paymart
     });
 
+    /// Hodimlar
+    Route::controller(EmploesController::class)->group(function(){
+        Route::post('admin/emploes/create', 'create');  // Yangi emploes yaratish
+        Route::get('admin/emploes/{id}', 'emploes'); // all emploes
+    });
 
 
 });

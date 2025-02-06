@@ -90,6 +90,4 @@ class RegisterControllers extends BaseController{
         return $this->sendResponse([], 'Foydalanuvchi tizimdan muvaffaqiyatli chiqdi.');
     }
 
-
-
 }
