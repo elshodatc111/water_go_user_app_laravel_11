@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\RegisterController;
 use App\Http\Controllers\API\Admin\RegisterControllers;
 use App\Http\Controllers\API\Admin\CompanyControllers;
+use App\Http\Controllers\API\Admin\PaymartController;
 
 /// USERS ////
 Route::controller(RegisterController::class)->group(function(){
@@ -38,7 +39,12 @@ Route::middleware('auth:sanctum')->group( function () {
         Route::post('admin/company/status-update', 'status_update'); // Kompaniya status update
         Route::get('admin/company/all', 'company'); // all Company
         Route::get('admin/company/show/{id}', 'show'); // show Company
+    });
 
+    /// Paymart
+    Route::controller(PaymartController::class)->group(function(){
+        Route::post('admin/paymart/create', 'create');  // Yangi paymart yaratish
+        Route::get('admin/paymart/all', 'paymart'); // all paymart
     });
 
 
