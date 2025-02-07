@@ -24,7 +24,7 @@ class CompanyController extends BaseController{
         $Company = Company::where('id',$id)->first();
         if($Company){
             $success['company'] =  $Company;
-            return $this->sendResponse($success, 'Get all Company successfully.');
+            return $this->sendResponse($success, 'Company successfully.');
         }else{
             return $this->sendError('Not fount company.');
         }
@@ -41,7 +41,7 @@ class CompanyController extends BaseController{
         if ($validator->fails()) {
             return $this->sendError('Validation Error.', $validator->errors());
         }
-        $Company = Company::where('id',$id)->first();
+        $Company = Company::where('id',$request->company_id)->first();
         if($Company){
             $order = new Order();
             $order->company_id = $request->company_id;
@@ -62,9 +62,9 @@ class CompanyController extends BaseController{
 
     public function active_order(){
         $Order = Order::where('user_id',Auth()->user()->id)
-            ->where('status','!=',['success','cancel'])
+            ->whereNotIn('status', ['success', 'cancel'])
             ->join('companies', 'orders.company_id', '=', 'companies.id')
-            ->select('companies.name','companies.price','orders.status','orders.count','orders.create_time','orders.pedding_time','orders.succes_time','orders.cancel_time')
+            ->select('orders.id','companies.name','companies.price','orders.status','orders.count','orders.create_time','orders.pedding_time','orders.succes_time','orders.cancel_time')
             ->get();
         $success['order'] =  $Order;
         return $this->sendResponse($success, 'Barcha aktive buyurtmalar.');
@@ -72,35 +72,34 @@ class CompanyController extends BaseController{
 
     public function end_order(){
         $Order = Order::where('user_id',Auth()->user()->id)
-            ->where('status','=',['success','cancel'])
+            ->whereNotIn('status', ['new', 'pedding'])
             ->join('companies', 'orders.company_id', '=', 'companies.id')
-            ->select('companies.name','companies.price','orders.status','orders.count','orders.create_time','orders.pedding_time','orders.succes_time','orders.cancel_time')
+            ->select('orders.id','companies.name','companies.price','orders.status','orders.count','orders.create_time','orders.pedding_time','orders.succes_time','orders.cancel_time','orders.cancel_discription')
             ->get();
-        $success['order'] =  $order;
+        $success['order'] =  $Order;
         return $this->sendResponse($success, 'Barcha yakunlangan buyurtmalar.');
     }
     
     public function order_show($id){
-        $Order = Order::where('id',$id)
-            ->where('status','=',['success','cancel'])
-            ->join('companies', 'orders.company_id', '=', 'companies.id')
-            ->join('users', 'orders.currer_id', '=', 'users.id')
-            ->select(
-                    'companies.name',
-                    'companies.price',
-                    'orders.status',
-                    'orders.count',
-                    'orders.addres',
-                    'orders.create_time',
-                    'orders.pedding_time',
-                    'orders.succes_time',
-                    'orders.cancel_time',
-                    'orders.reyting_status',
-                    'users.name as currer',
-                    'users.phone',
-                )
-            ->first();
+        $Order = Order::where('orders.id', $id)
+        ->join('companies', 'orders.company_id', '=', 'companies.id')
+        ->select(
+            'companies.name as company',
+            'companies.price',
+            'orders.status',
+            'orders.count',
+            'orders.addres',
+            'orders.create_time',
+            'orders.pedding_time',
+            'orders.succes_time',
+            'orders.cancel_time',
+            'orders.reyting_status',
+            'orders.currer_id',
+            'companies.phone'
+        )->first();
+        $Currer = User::find($Order->currer_id);
         $success['order'] =  $Order;
+        $success['currer'] =  $Currer?$Currer->name:'null';
         return $this->sendResponse($success, 'Barcha yakunlangan buyurtmalar.');
     }
 
@@ -138,7 +137,8 @@ class CompanyController extends BaseController{
         $Order = Order::where('id',$request->id)->first();
         if($Order){
             $Company = Company::find($Order->company_id);
-            $Company->reyting = (($Company->reyting * $Company->reyting_count) + $request->reyting)/($Company->reyting_count + 1);
+            $reytings = (($Company->reyting * $Company->reyting_count) + $request->reyting) / ($Company->reyting_count + 1);
+            $Company->reyting = floor($reytings * 10) / 10;;
             $Company->reyting_count = $Company->reyting_count + 1;
             $Company->save();
             

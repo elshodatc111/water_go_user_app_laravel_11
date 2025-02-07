@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Фев 06 2025 г., 20:35
+-- Время создания: Фев 07 2025 г., 18:29
 -- Версия сервера: 10.4.32-MariaDB
 -- Версия PHP: 8.2.12
 
@@ -74,7 +74,7 @@ CREATE TABLE `companies` (
 --
 
 INSERT INTO `companies` (`id`, `name`, `phone`, `time`, `price`, `tarif`, `description`, `balans`, `reyting`, `reyting_count`, `image_url`, `status_admin`, `status_drektor`, `created_at`, `updated_at`) VALUES
-(2, 'Water Go', '+998908830450', '08:00 - 20:00', 12000, 200, 'discription', 30000, 5, 0, 'image/banner/1738866011.png', 1, 1, '2025-02-06 12:49:55', '2025-02-06 14:14:38'),
+(2, 'Water Go', '+998908830450', '08:00 - 20:00', 12000, 200, 'discription', 30000, 4.1, 7, 'image/banner/1738866011.png', 1, 1, '2025-02-06 12:49:55', '2025-02-07 12:27:25'),
 (3, 'Lorem Ipsum two', '+998908830450', '08:00 - 20:00', 10000, 200, 'Quisque ullamcorper, quam et ornare condimentum, libero ante condimentum enim, vitae tincidunt dolor ex vitae quam. Sed gravida vulputate nisl, sed dapibus ex pulvinar id. Nullam non arcu magna. Etiam elementum felis sem, ut maximus velit aliquet sit amet. Maecenas mattis fermentum diam eu eleifend. Nam nec mi ultricies, tristique turpis quis, viverra tellus. Nullam id magna justo. In ultrices sodales mi vitae consectetur. Proin nec turpis accumsan, rhoncus ex venenatis, elementum est. Sed efficitur ex vitae auctor efficitur. Mauris hendrerit neque ex. Nunc placerat molestie lacus, commodo scelerisque felis venenatis quis. Nulla massa odio, eleifend sit amet diam non, condimentum hendrerit tellus. Sed vehicula, urna sed vulputate maximus, nisi velit dictum ex, sit amet ullamcorper urna metus id urna.', 0, 4.8, 0, 'image/banner/1738864213.png', 1, 1, '2025-02-06 12:50:13', '2025-02-06 12:50:13'),
 (4, 'Lorem Ipsum there', '+998908830450', '08:00 - 20:00', 10000, 150, 'Praesent condimentum ullamcorper quam a fermentum. Vestibulum ullamcorper mattis odio tempus cursus. Nulla malesuada, tortor id posuere euismod, lectus est imperdiet augue, egestas tincidunt tortor nisl vitae neque. Proin finibus, lectus nec pharetra viverra, sapien mi condimentum purus, non aliquet felis sem eget ex. Praesent a ex quis augue tempus tristique id sit amet nulla. Maecenas et nibh felis. Pellentesque semper finibus dignissim. Curabitur luctus finibus est, sed tempus velit eleifend nec. Maecenas vitae orci laoreet nibh rutrum viverra ac sit amet erat. Nulla congue condimentum mauris, a ullamcorper nulla molestie eget. Aenean luctus elit quis accumsan vulputate. Nulla facilisi. Maecenas aliquet ultrices justo in eleifend. In hac habitasse platea dictumst.', 0, 3.2, 0, 'image/banner/1738864229.png', 1, 1, '2025-02-06 12:50:29', '2025-02-06 12:50:29'),
 (5, 'Lorem Ipsum four', '+998908830450', '08:00 - 20:00', 10000, 300, 'Fusce ornare neque eu malesuada maximus. Ut venenatis eros ut ex laoreet ullamcorper. Mauris mi ipsum, consequat at elit ac, facilisis consequat felis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse posuere risus quis eros sollicitudin auctor. Ut eu est eu nulla laoreet viverra. Mauris et maximus odio.', 0, 5, 0, 'image/banner/1738864247.png', 1, 1, '2025-02-06 12:50:47', '2025-02-06 12:50:47'),
@@ -156,7 +156,44 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (3, '0001_01_01_000002_create_jobs_table', 1),
 (4, '2025_02_02_064510_create_personal_access_tokens_table', 1),
 (5, '2025_02_02_154739_create_companies_table', 1),
-(6, '2025_02_06_184841_create_paymarts_table', 2);
+(6, '2025_02_06_184841_create_paymarts_table', 2),
+(7, '2025_02_07_110810_create_orders_table', 3);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `orders`
+--
+
+CREATE TABLE `orders` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `company_id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `count` int(11) NOT NULL,
+  `addres` varchar(255) NOT NULL,
+  `latuda` double NOT NULL,
+  `longitude` double NOT NULL,
+  `status` varchar(255) NOT NULL DEFAULT 'new',
+  `create_time` datetime NOT NULL,
+  `pedding_time` datetime DEFAULT NULL,
+  `succes_time` datetime DEFAULT NULL,
+  `cancel_time` datetime DEFAULT NULL,
+  `cancel_discription` text DEFAULT NULL,
+  `currer_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `reyting_status` tinyint(1) NOT NULL DEFAULT 0,
+  `reyting` double NOT NULL DEFAULT 5,
+  `reyting_discription` text DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Дамп данных таблицы `orders`
+--
+
+INSERT INTO `orders` (`id`, `company_id`, `user_id`, `count`, `addres`, `latuda`, `longitude`, `status`, `create_time`, `pedding_time`, `succes_time`, `cancel_time`, `cancel_discription`, `currer_id`, `reyting_status`, `reyting`, `reyting_discription`, `created_at`, `updated_at`) VALUES
+(1, 2, 4, 2, 'Qarshi shaxar Navo MFY', 41.154514, 69.154525, 'cancel', '2025-02-07 16:59:00', NULL, NULL, '2025-02-07 17:17:00', 'Adashilgan', NULL, 0, 5, NULL, '2025-02-07 11:59:15', '2025-02-07 12:17:11'),
+(2, 2, 4, 2, 'Qarshi shaxar Navo MFY', 41.154514, 69.154525, 'new', '2025-02-07 17:18:00', NULL, NULL, NULL, NULL, NULL, 1, 5, 'Test uchun', '2025-02-07 12:18:41', '2025-02-07 12:27:25');
 
 -- --------------------------------------------------------
 
@@ -220,7 +257,8 @@ CREATE TABLE `personal_access_tokens` (
 
 INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `name`, `token`, `abilities`, `last_used_at`, `expires_at`, `created_at`, `updated_at`) VALUES
 (2, 'App\\Models\\User', 2, 'Admin', '4617e787c5ced7d79db064933c58ebfdfa490c1529b31cf5c25bb2f630ee39bc', '[\"*\"]', NULL, NULL, '2025-02-06 12:12:30', '2025-02-06 12:12:30'),
-(7, 'App\\Models\\User', 1, 'Admin', '15152acc74afbed38009615f6b55c927c9615eb27e61f98b5255ef21702907ba', '[\"*\"]', '2025-02-06 14:32:36', NULL, '2025-02-06 12:38:14', '2025-02-06 14:32:36');
+(7, 'App\\Models\\User', 1, 'Admin', '15152acc74afbed38009615f6b55c927c9615eb27e61f98b5255ef21702907ba', '[\"*\"]', '2025-02-06 14:32:36', NULL, '2025-02-06 12:38:14', '2025-02-06 14:32:36'),
+(8, 'App\\Models\\User', 4, 'Users', '46cae788ff971003999f63a16501524f92509ac4a9d1e59e42df0526438d70a8', '[\"*\"]', '2025-02-07 12:27:25', NULL, '2025-02-07 11:52:53', '2025-02-07 12:27:25');
 
 -- --------------------------------------------------------
 
@@ -268,7 +306,8 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `company_id`, `name`, `phone`, `type`, `status`, `reyting`, `reyting_count`, `email`, `email_verified_at`, `password`, `mobile_token`, `remember_token`, `created_at`, `updated_at`) VALUES
 (1, 1, 'Alisher Qalandarov', '+998945206005', 'admin', 1, 5, 0, 'elshodatc@gmail.com', NULL, '$2y$12$ty7fL0eHlHR.oQLWJ1WT3uM5ncljM2RrkADM4.o0eIuo72KSA69Oi', 'Mobile Token', NULL, '2025-02-06 12:04:07', '2025-02-06 12:33:38'),
 (2, 1, 'Alisher Qalandarov', '+998945206003', 'admin', 1, 5, 0, 'elshodatc1116@gmail.com', NULL, '$2y$12$KFaJxfvg2omeOXD3/HexMevXIXnGjLMQartDIKTiQpNGE02eCmK6m', 'null', NULL, '2025-02-06 12:06:16', '2025-02-06 12:06:16'),
-(3, 2, 'Alimov Salim', '+998954854540', 'drektor', 1, 5, 0, 'test@test', NULL, '$2y$12$B1t3mU/qMhmAU.ZeuQxszOKhx/3RLCP.oNLPnzfZQhQKLcQcst3Zq', 'null', NULL, '2025-02-06 14:32:36', '2025-02-06 14:32:36');
+(3, 2, 'Alimov Salim', '+998954854540', 'drektor', 1, 5, 0, 'test@test', NULL, '$2y$12$B1t3mU/qMhmAU.ZeuQxszOKhx/3RLCP.oNLPnzfZQhQKLcQcst3Zq', 'null', NULL, '2025-02-06 14:32:36', '2025-02-06 14:32:36'),
+(4, 0, 'Elshod', '+998908830458', 'user', 1, 5, 0, 'user1738947125@gmail.com', NULL, '$2y$12$VCLcADA.ydogBhoBjLb30OYhdOHLlxbs9oy/rN30f5IQPWq9wfDN.', 'null', NULL, '2025-02-07 11:52:05', '2025-02-07 11:55:57');
 
 --
 -- Индексы сохранённых таблиц
@@ -316,6 +355,12 @@ ALTER TABLE `job_batches`
 -- Индексы таблицы `migrations`
 --
 ALTER TABLE `migrations`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `orders`
+--
+ALTER TABLE `orders`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -380,7 +425,13 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT для таблицы `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT для таблицы `orders`
+--
+ALTER TABLE `orders`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT для таблицы `paymarts`
@@ -392,13 +443,13 @@ ALTER TABLE `paymarts`
 -- AUTO_INCREMENT для таблицы `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -22,7 +22,7 @@ Route::middleware('auth:sanctum')->group( function () {
         Route::post('user/create-order', 'order_create'); 
         Route::get('user/active-order', 'active_order');  
         Route::get('user/end-order', 'end_order');  
-        Route::get('user/order{id}', 'order_show');  
+        Route::get('user/order/{id}', 'order_show');  
         Route::post('user/cancel-order', 'order_cancel'); 
         Route::post('user/order-comment', 'order_comment'); 
     });

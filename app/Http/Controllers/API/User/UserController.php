@@ -85,7 +85,7 @@ class UserController extends BaseController{
         $user = $request->user();
         $user->name = $request->name;
         $user->save();
-        return $this->sendResponse([], 'Profile Update success.');
+        return $this->sendResponse([$user], 'Profile Update success.');
     }
 
 }
